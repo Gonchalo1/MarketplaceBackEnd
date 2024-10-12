@@ -1,0 +1,8 @@
+ESTE ARCHIVO ES EL APORTE DIARIO QUE CADA UNO HARÁ EN EL PROYECTO:
+
+Gonzalo Dia1:
+Utilicé una plantilla de un proyecto que yo ya cree y lo conecté con la base de datos y lo testié
+ con thunder porque nose usar swagger, y funciona correctamente, me falta la api de usuarios y 
+ a las rutas le agregué el prefijo de products, está todo en inglés y tienen que pasarlo a swagger a las rutas.
+ Los modelos estan con un archivo de syncronizacion para que los modelos se migren a la base de datos de postgres.
+ 

@@ -1,0 +1,5 @@
+ESTE ARCHIVO ES EL APORTE DIARIO QUE CADA UNO HARÁ EN EL PROYECTO:
+
+Gonzalo dia1:
+He realizado todo correctamente, el prefijo es '/user' y se pasa todo por formato json en el testeo de la petición, 
+y el token depende el método se pasa ya sea por auth/bearer de thunder, o por el mísmo json.

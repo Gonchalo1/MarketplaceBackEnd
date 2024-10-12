@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn.lock
+
+# Entornos de desarrollo
+.DS_Store
+.idea/
+.vscode/
+
+# Archivos de entorno y credenciales
+.env
