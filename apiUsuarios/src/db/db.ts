@@ -7,7 +7,7 @@ dotenv.config(); // Cargar las variables de entorno al principio
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'UsuariosMarketplace',   // Nombre de la base de datos
   process.env.DB_USER || 'postgres',         // Usuario
-  process.env.DB_PASSWORD || 'gatanovia',    // Contraseña
+  process.env.DB_PASSWORD || '',    // Contraseña
   {
     host: process.env.DB_HOST || 'localhost', // Host de la base de datos
     dialect: 'postgres',                      // Tipo de base de datos
