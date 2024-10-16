@@ -38,7 +38,16 @@
       margin-bottom: 20px;
       padding: 0.5rem;
       box-sizing: border-box;
-      display: none; 
+      display: none;
+    }
+
+    a {
+      color: rgb(4, 4, 97);
+      cursor: pointer;
+    }
+
+    a:hover {
+      color: rgb(38, 38, 121);
     }
 
     p,
@@ -241,6 +250,22 @@
     <p>*** Los cambio de estado de los pedidos desencadenan que se anuncie al cliente por
       email la situación de su pedido.
     </p>
+    <p> -- 'cancelado' envía el siguiente email: </p>
+    <p>Hola 'exemple@exemple.com' muchas gracias por confiar en nuestros servicios, te comentamos
+      que tu pedido 'datos del pedido' ha sido cancelado.
+
+      Que tenga un lindo dia</p>
+    <p>
+    <p> -- 'en tramite' envía el siguiente email: </p>
+    Hola 'exemple@exemple.com' muchas gracias por confiar en nuestros servicios, te comentamos
+    que tu pedido 'datos del pedido' se encuentra en tramite y llegara a la 'direccion de envio'
+    en 'tiempo estimado de entrega'.</p>
+    <p>La compañía encargada del traslado es 'compania de traslado' y su número de seguimiento
+      'numero de seguimiento'.
+      Si desea cancelar el pedido sin el reembolso puede hacerlo siguiendo este enlace</p>
+    <a>Cancelar pedido</a>
+
+    <p>Muchas gracias, que tengas un lindo día.</p>
 
   </section>
 
