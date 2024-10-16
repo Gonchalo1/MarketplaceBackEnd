@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>API envíos</title>
+
+  <style>
+    body {
+      background-color: #E5CD98;
+      font-family: Arial, sans-serif;
+      margin: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    header {
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    section {
+      max-width: 800px;
+      border-radius: 4px;
+      background-color: #D1A56E;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 20px;
+      padding: 0.5rem;
+      box-sizing: border-box;
+      display: none; 
+    }
+
+    p,
+    h2,
+    h3 {
+      width: 100%;
+      text-align: start;
+      margin: 0.5rem 0;
+      box-sizing: border-box;
+    }
+
+    h3 {
+      border-radius: 4px;
+      background-color: #4B3F49;
+      color: #E5CD98;
+      cursor: pointer;
+      padding: 0.5rem 2rem;
+    }
+
+    h3:hover {
+      background-color: #BDB370;
+      color: black;
+      box-shadow: 1px 1px 1px black;
+    }
+
+    ul {
+      list-style: none;
+      background-color: #E5CD98;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px auto;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    li {
+      margin: 10px;
+      padding: 0;
+    }
+  </style>
+
+<body>
+  <header>
+    <h1>BIENVENIDOS A LA API DE ENVIOS DE MARKETPLACE</h1>
+    <p>Esta api es un microservicio de la api marketplace encargada del manejo de los envíos</p>
+  </header>
+  <h2>Rutas de acceso y formato de la información</h2>
+  <h3>GET()</h3>
+  <section>
+    <p>La ruta para leer los envíos es <span>/envíos</span>, tiene un paginado de 100 envíos
+      por llamado, y estan ordenados de más recientes a más antiguos</p>
+
+    <p>El metodo GET devuelve un arreglo de objetos con la siguiente estructura</p>
+    <ul>
+      <li> { data: [ {</li>
+      <li>idEnvio:number</li>
+      <li>idCliente: string,</li>
+      <li>idPedido: string,</li>
+      <li>estado: estadoEnum,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: boolean;</li>
+      <li>createdAt: Date</li>
+      <li>updatedAt: Date</li>
+      <li>} ] }</li>
+    </ul>
+  </section>
+  <h3>GET(:/id)</h3>
+  <section>
+    <p>La ruta leer un envío especifico es <span>/envíos/1</span>,
+      suponiendo que 1 sea la id del envío a buscar</p>
+
+    <p>El metodo GET(:/id) devuelve un objeto con la siguiente estructura</p>
+    <ul>
+      <li> {</li>
+      <li>idEnvio:number</li>
+      <li>idCliente: string,</li>
+      <li>idPedido: string,</li>
+      <li>estado: estadoEnum,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: boolean;</li>
+      <li>createdAt: Date</li>
+      <li>updatedAt: Date</li>
+      <li>}</li>
+    </ul>
+  </section>
+  <h3>GET(:/id?estado=estadoEnum)</h3>
+  <section>
+    <p>La ruta para cambiar el estado de un envío es <span>/envíos/1?estado=pendiente</span>,
+      suponiendo que 1 sea la id del envío a cambiar y pendiente sea el estado al que se lo
+      quiera cambiar.</p>
+
+    <p>Como parametro de la query hay que pasarle uno de los siguientes estados, estos estados
+      son los mismos que devuelven en el campo estado cada uno de los objetos envíos.
+    </p>
+
+    <ul>
+      <li>pendiente</li>
+      <li>en transito</li>
+      <li>cancelado</li>
+      <li>entregado</li>
+    </ul>
+
+    <p>El metodo GET(:/id?estado=estadoEnum) devuelve un objeto con la siguiente estructura,
+      con el estado actualizado.
+    </p>
+
+    <ul>
+      <li> {</li>
+      <li>idEnvio:number</li>
+      <li>idCliente: string,</li>
+      <li>idPedido: string,</li>
+      <li>estado: estadoEnum,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: boolean;</li>
+      <li>createdAt: Date</li>
+      <li>updatedAt: Date</li>
+      <li>}</li>
+    </ul>
+  </section>
+  <h3>POST()</h3>
+  <section>
+    <p>La ruta generar un nuevo envío es <span>/envíos</span></p>
+
+    <p>En el body se le debe pasar la siguiente estructura:</p>
+    <ul>
+      <li> {</li>
+      <li>idCliente: email,</li>
+      <li>idPedido: string,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: string,</li>
+      <li>}</li>
+    </ul>
+
+    <p>Y devuelve un objeto con la siguiente estructura:</p>
+    <ul>
+      <li> {</li>
+      <li>idEnvio:number</li>
+      <li>idCliente: string,</li>
+      <li>idPedido: string,</li>
+      <li>estado: estadoEnum,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: boolean;</li>
+      <li>createdAt: Date</li>
+      <li>updatedAt: Date</li>
+      <li>}</li>
+    </ul>
+  </section>
+  <h3>PUT(:/id)</h3>
+  <section>
+    <p>La ruta generar un nuevo envío es <span>/envíos/1</span>, suponiendo que sea 1
+      la ide del envío que se quiere editar</p>
+
+    <p>En el body se le debe pasar la siguiente estructura:</p>
+    <ul>
+      <li> {</li>
+      <li>idCliente: email,</li>
+      <li>idPedido: string,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: string,</li>
+      <li>}</li>
+    </ul>
+
+    <p>Y devuelve un objeto con la siguiente estructura:</p>
+    <ul>
+      <li> {</li>
+      <li>idEnvio:number</li>
+      <li>idCliente: string,</li>
+      <li>idPedido: string,</li>
+      <li>estado: estadoEnum,</li>
+      <li>tiempoEstimado: string,</li>
+      <li>direccionEnvio: string,</li>
+      <li>companiaTransporte: string,</li>
+      <li>numeroSeguimiento: boolean;</li>
+      <li>createdAt: Date</li>
+      <li>updatedAt: Date</li>
+      <li>}</li>
+    </ul>
+  </section>
+  <h3>Datos extras a tener encuenta</h3>
+  <section>
+    <p>*** El objeto estadoEnum debe ser un string que puede tener solo estas palabras:</p>
+    <p>'pendiente', 'en transito', 'cancelado', 'entregado'</p>
+    <p>Estas se pasan por Query para cambiar el estado del envío y son las que vemos cuando
+      llamamos un metodo get en cada objeto envío que leemos
+    </p>
+    <p>*** Los cambio de estado de los pedidos desencadenan que se anuncie al cliente por
+      email la situación de su pedido.
+    </p>
+
+  </section>
+
+  <script>
+    document.querySelectorAll('h3').forEach(h3 => {
+      h3.addEventListener('click', function () {
+        const section = this.nextElementSibling;
+        section.style.display = section.style.display === 'none' || section.style.display === '' ? 'block' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</head>
