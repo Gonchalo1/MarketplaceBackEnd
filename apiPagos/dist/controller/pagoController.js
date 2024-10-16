@@ -13,14 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPaymentMethods = exports.getPaymentById = exports.payments = void 0;
-const mercadopago_1 = __importDefault(require("mercadopago")); // SDK oficial de Mercado Pago
+const mercadopago = require('mercadopago');
 const axios_1 = __importDefault(require("axios"));
 const pagos_1 = __importDefault(require("../models/pagos")); // Importa el modelo de Pagos
 // Función para inicializar el SDK de Mercado Pago
 const initMercadoPago = () => {
-    mercadopago_1.default.configure({
-        access_token: process.env.MERCADO_PAGO_TOKEN, // Asegúrate de que el token sea correcto
-    });
+    mercadopago.configurations.setAccessToken(process.env.MERCADO_PAGO_TOKEN);
 };
 // Llama a la función para configurar Mercado Pago
 initMercadoPago();
@@ -57,7 +55,7 @@ const payments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     };
     try {
         // Crea la preferencia de pago en Mercado Pago
-        const response = yield mercadopago_1.default.preferences.create(preference);
+        const response = yield mercadopago.preferences.create(preference);
         console.log("PREFERENCE RESPONSE", response);
         const pedido_id = response.id; // ID de la preferencia generada
         // Guarda la información del pago en la base de datos

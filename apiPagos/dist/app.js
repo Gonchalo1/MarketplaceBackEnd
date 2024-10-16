@@ -53,4 +53,4 @@ app.use((err, req, res, next) => {
 // Hice todo, nomás no se puede hacer el reembolso porque hay que poner datos reales y hacer un pago real, cosa que se supone que no tenemos que hacerlo
 // Así que estoy limitado por hacer proyectos ficticios, igualmente el resto de las funcionalidades están terminadas, así que mi trabajo termina aquí.
 // La petición se manda de manera manual, pasando en los headers el token y la llave para no repetir la petición (X-idempotency-key) y se pasa el id del pedido en la url (se saca ese id por la base de datos)
-// Pude masomenos manejarlo, hay que cuando se compila pasar el config.js a module exports en vez de export defualt y ver porque no me toma el id de los métodos de pago disponibles
+// Me olvidé que tenia que hacerlo con checkout api xd, no se porqué pero no me deja levantarlo por una funcion que esta mal al momento de compilar con tsc, una vez resuelva eso hay que testear.

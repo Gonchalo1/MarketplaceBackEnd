@@ -53,4 +53,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 // La petición se manda de manera manual, pasando en los headers el token y la llave para no repetir la petición (X-idempotency-key) y se pasa el id del pedido en la url (se saca ese id por la base de datos)
 
 
-// Me olvidé que tenia que hacerlo con checkout api xd, no se porqué pero no me deja levantarlo por una funcion que esta mal al momento de compilar ocn tsc, una vez resuelva eso hay que testear.
+//Sigo con el problema de la funcion en el archivo de pagosController.ts y tengo que seguir insistiendo, tengo algo en chat gpt pero me dió errores de tipado y para no tener confusion a futuro lo dejé como estaba jajaj

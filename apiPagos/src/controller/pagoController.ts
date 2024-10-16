@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import mercadopago from 'mercadopago'; // SDK oficial de Mercado Pago
+const mercadopago = require('mercadopago');
+
 import axios from 'axios';
 import Pagos from '../models/pagos'; // Importa el modelo de Pagos
 
