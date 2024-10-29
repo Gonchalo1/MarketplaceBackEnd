@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const registercontroller = (_req: Request, res: Response) => {
+const registercontroller = async(_req: Request, res: Response) => {
     res.send("Register funcionando");
 }
 
