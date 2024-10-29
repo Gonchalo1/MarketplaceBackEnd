@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createConnection } from './database/Connection'; // Import the createConnection function
+import router from './routes/routes';
 
 
 dotenv.config();
@@ -12,6 +13,7 @@ const port = process.env.PORT || 3000;
 // Configuración de middlewares
 app.use(cors());
 app.use(express.json());
+app.use('/', router);
 
 async function startServer() {
   try {
@@ -34,8 +36,5 @@ async function startServer() {
 startServer();
 
 
-// Ejemplo de ruta
-app.get('/', (_req, res) => {
-  res.send('¡Hola, mundo con TypeScript!');
-});
+
 
