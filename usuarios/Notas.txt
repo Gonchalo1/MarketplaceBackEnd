@@ -1,0 +1,5 @@
+1Server llama a routers
+
+2 Routes define las rutas y utiliza la logica definida en controllers
+
+3 Db Connection crea la coneccion a la base de datos y utiliza el modulo "user" para que la DB sepa q esperar

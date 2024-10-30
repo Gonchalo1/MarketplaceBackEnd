@@ -1,13 +1,26 @@
 import 'dotenv/config';
 import pg from 'pg';
+import userModel from '../models/userModel';
+import { Sequelize } from 'sequelize';
 
 const {
-    DB_HOST,
+    DB_HOST = 'localhost',  
     DB_NAME,
-    DB_USER,
-    DB_PASS,
+    DB_USER = 'postgres',
+    DB_PASS = '',
     DB_SCHEMA
 } = process.env;
+
+
+if (!DB_NAME) {
+    throw new Error("La variable de entorno DB_NAME es obligatoria.");
+}
+
+
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+    host: DB_HOST,
+    dialect: 'postgres'
+});
 
 const { Client } = pg;
 
@@ -21,13 +34,14 @@ const createConnection = async () => {
 
     await client.connect();
 
-    if ( DB_SCHEMA ) {
+    if (DB_SCHEMA) {
         await client.query(`SET search_path TO ${DB_SCHEMA}`);
     }
 
     return client;
 };
 
-export {
-    createConnection
-};
+
+const User = userModel(sequelize);
+
+export { sequelize, createConnection, User }; 
