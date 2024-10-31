@@ -3,7 +3,7 @@ import checkUser from '../services/userService';
 import { User } from '../database/Connection';
 
 const loginController = async (req: Request, res: Response) => {
-    const { email, username, password } = req.query;
+    const { email, username, password } = req.body;
 
     if (!email || !username || !password) {
         return res.status(400).send('Faltan datos');
@@ -11,7 +11,7 @@ const loginController = async (req: Request, res: Response) => {
 
     try {
         // Usamos `checkUser` para validar el usuario
-        await checkUser(email as string, password as string);
+        await checkUser(email as string, password as string, username as string);
 
         const user = await User.findOne({
             where: {
