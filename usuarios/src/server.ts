@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createConnection } from './database/Connection'; // Import the createConnection function
 import router from './routes/routes';
+import "./types/express";
 
 
 dotenv.config();

@@ -3,11 +3,12 @@ import registercontroller from "../controllers/register";
 import getAllUsersController from "../controllers/getAllUsers";
 import mainPageController from "../controllers/mainPage";
 import loginController from "../controllers/loginController";
+import authMiddleware from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/users", (req: Request, res: Response) => {
-  getAllUsersController(req,res);
+router.get("/users", authMiddleware, (req: Request, res: Response) => {
+  getAllUsersController(req, res);
 });
 
 router.get("/", (req: Request, res: Response) => {
