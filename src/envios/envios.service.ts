@@ -1,165 +1,164 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
-import { Envios } from './entidad/envios.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EnviosDto } from './dto/envios.dto';
-import { EstadoEnvio } from './enum/estadoEnvio.enum';
-import { CorreoService } from 'src/correo/correo.service';
-import { CorreoDto } from 'src/correo/dto/correo.dto';
+import { EmailService } from 'src/correo/correo.service';
+import { EmailDto } from 'src/correo/dto/correo.dto';
+import { ShipmentsDto } from './dto/envios.dto';
+import { shipmentStatus } from './enum/estadoEnvio.enum';
+import { Shipments } from './entidad/envios.entity';
 
-const url_base:string = 'http://localhost:3000/envios';
+const url_base:string = 'http://localhost:3000/Shipments';
 
 @Injectable()
-export class EnviosService {
+export class shipmentsService {
     constructor(
-        @InjectRepository(Envios) private readonly enviosRepository: Repository<Envios>,
-        private readonly correoService:CorreoService
+        @InjectRepository(Shipments) private readonly ShipmentsRepository: Repository<Shipments>,
+        private readonly emailService:EmailService
     ) {}
     
-    async getEnvios(): Promise<Envios[]> {
+    async getShipments(): Promise<Shipments[]> {
         try {
-            const envios: Envios[] = await this.enviosRepository.find();
-            return envios;
+            const Shipments: Shipments[] = await this.ShipmentsRepository.find();
+            return Shipments;
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar leer el listado de envíos`);
+            throw this.handleExceptions(error, `Error trying to read the shipment list`);
         }
     }
 
-    async getEnviosById(id:number): Promise<Envios | null> {
+    async getShipmentsById(id:number): Promise<Shipments | null> {
         try {
-            const criterio: FindOneOptions = { where: {idEnvio : id}}
-            const envio: Envios = await this.enviosRepository.findOne(criterio);
-            return envio;
+            const criteria: FindOneOptions = { where: {shipmentId : id}}
+            const shipment: Shipments = await this.ShipmentsRepository.findOne(criteria);
+            return shipment;
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar leer el envío de id: ${id}`);
+            throw this.handleExceptions(error, `Error trying to read the shipment with id: ${id}`);
         }
     }
 
-    async createEnvio(dtoEnvio:EnviosDto): Promise<Envios> {
+    async createShipment(dtoShipment:ShipmentsDto): Promise<Shipments> {
         try {
-            const newEnvio:Envios = new Envios(
-                dtoEnvio.idCliente, dtoEnvio.idPedido, dtoEnvio.tiempoEstimado,
-                dtoEnvio.direccionEnvio, dtoEnvio.companiaTransporte,
-                dtoEnvio.numeroSeguimiento
+            const newShipment:Shipments = new Shipments(
+                dtoShipment.customerId, dtoShipment.orderId, dtoShipment.estimatedTime,
+                dtoShipment.shippingAddress, dtoShipment.transportCompany,
+                dtoShipment.trackingNumber
             );
-            if (!newEnvio) throw new NotFoundException('Problemas al crear el envío');
+            if (!newShipment) throw new NotFoundException('Problems creating the shipment');
 
-            const envioCreado: Envios = await this.enviosRepository.save(newEnvio);
-            return envioCreado;
+            const shipmentCreado: Shipments = await this.ShipmentsRepository.save(newShipment);
+            return shipmentCreado;
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar crear el envío`);
+            throw this.handleExceptions(error, `Error trying to create the shipment`);
         }
     }
 
-    async updeateEnvio(id:number, dtoEnvio:EnviosDto): Promise<Envios> {
+    async updateShipment(id:number, dtoShipment:ShipmentsDto): Promise<Shipments> {
         try {
-            const envio: Envios = await this.getEnviosById(id);
-            if (!envio) throw new NotFoundException(`El envio de id ${id} que intenta actualizar no existe`);
+            const shipment: Shipments = await this.getShipmentsById(id);
+            if (!shipment) throw new NotFoundException(`The shipment with id ${id} you are trying to update does not exist`);
 
-            envio.idCliente = dtoEnvio.idCliente || envio.idCliente;
-            envio.idPedido = dtoEnvio.idPedido || envio.idPedido;
-            envio.tiempoEstimado = dtoEnvio.tiempoEstimado || envio.tiempoEstimado;
-            envio.direccionEnvio = dtoEnvio.direccionEnvio || envio.direccionEnvio;
-            envio.companiaTransporte = dtoEnvio.companiaTransporte || envio.companiaTransporte;
-            envio.numeroSeguimiento = dtoEnvio.numeroSeguimiento || envio.numeroSeguimiento;
+            shipment.customerId = dtoShipment.customerId || shipment.customerId;
+            shipment.orderId = dtoShipment.orderId || shipment.orderId;
+            shipment.estimatedTime = dtoShipment.estimatedTime || shipment.estimatedTime;
+            shipment.shippingAddress = dtoShipment.shippingAddress || shipment.shippingAddress;
+            shipment.transportCompany = dtoShipment.transportCompany || shipment.transportCompany;
+            shipment.trackingNumber = dtoShipment.trackingNumber || shipment.trackingNumber;
 
-            const envioActualizado: Envios = await this.enviosRepository.save(envio);
+            const updatedShipment: Shipments = await this.ShipmentsRepository.save(shipment);
 
-            return envioActualizado;
+            return updatedShipment;
 
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar actualizar el envío de id: ${id}`);
+            throw this.handleExceptions(error, `Error trying to update the shipment with id: ${id}`);
         }
     }
 
-    async deleteEnvio(id:number):Promise <boolean> {
+    async deleteShipment(id:number):Promise <boolean> {
         try {
-            const envio: Envios = await this.getEnviosById(id);
-            if (!envio) throw new NotFoundException(`El envio de id ${id} que intenta eliminar no existe`);
+            const shipment: Shipments = await this.getShipmentsById(id);
+            if (!shipment) throw new NotFoundException(`The shipment with id ${id} you are trying to delete does not exist`);
 
-            await this.enviosRepository.remove(envio);
+            await this.ShipmentsRepository.remove(shipment);
             return true;
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar eliminar el envío de id: ${id}`);
+            throw this.handleExceptions(error, `Error trying to delete the shipment with id: ${id}`);
         }
     }
 
-    async getEnviosPaginados(pagina: number, limite: number): Promise<{ data: Envios[], total: number }> {
-        const skip = (pagina - 1) * limite;
+    async getPaginatedShipments(page: number, limit: number): Promise<{ data: Shipments[], total: number }> {
+        const skip = (page - 1) * limit;
         
-        const [data, total] = await this.enviosRepository.createQueryBuilder('envios')
-          .orderBy('envios.createdAt', 'DESC')
+        const [data, total] = await this.ShipmentsRepository.createQueryBuilder('Shipments')
+          .orderBy('Shipments.createdAt', 'DESC')
           .skip(skip)
-          .take(limite)
+          .take(limit)
           .getManyAndCount(); 
     
         return { data, total };
       }
     
-    async cambiarEstado(id:number, estado:EstadoEnvio):Promise<Envios>{
+    async changeStatus(id:number,status:shipmentStatus):Promise<Shipments>{
         try {
-            const envio: Envios = await this.getEnviosById(id);
-            if (!envio) throw new NotFoundException(`El envio de id ${id} que intenta modificar el estado no existe`);
-            if (envio.estado===estado) throw new ConflictException(`El envío ${id} ya estaba en ${estado} previamente`)
-            envio.estado=estado;
+            const shipment: Shipments = await this.getShipmentsById(id);
+            if (!shipment) throw new NotFoundException(`The shipment with id ${id} you are trying to modify the status for does not exist`);
+            if (shipment.status===status) throw new ConflictException(`The shipment ${id} was already in ${status} previously`)
+            shipment.status=status;
 
-            const envioModificado:Envios = await this.enviosRepository.save(envio);
-            return envioModificado;
+            const shipmentModificado:Shipments = await this.ShipmentsRepository.save(shipment);
+            return shipmentModificado;
 
         } catch (error) {
-            throw this.handleExceptions(error, `Error al intentar eliminar el envío de id: ${id}`);
+            throw this.handleExceptions(error, `Error trying to delete the shipment with id: ${id}`);
         }
     }
 
-    async cancelarPedido(id:number):Promise<Envios>{
+    async cancelOrder(id:number):Promise<Shipments>{
         try {
-            const envio: Envios = await this.getEnviosById(id);
-            if (!envio) throw new NotFoundException(`El envio de id ${id} que intenta contactar por correo no existe`);
+            const shipment: Shipments = await this.getShipmentsById(id);
+            if (!shipment) throw new NotFoundException(`The shipment with id ${id} you are trying to contact by email does not exist`);
             
-        const email:string = `<div><p>Hola ${envio.idCliente} muchas gracias por confiar en nuestro servicios,
-        te comentamos que tu pedido ${envio.idPedido} ha sido cancelado.</p>
-        
-        <p>Que tenga un lindo día</p></div>`;
+        const email:string = `<div>
+  <p>Hello ${shipment.customerId}, thank you very much for trusting our services. We would like to inform you that your order ${shipment.orderId} has been CANCELED.</p>
+  <p>Have a great day!</p>
+</div>`;
 
-        const envioEnTransito:Envios = await this.cambiarEstado(id, EstadoEnvio.CANCELADO);
+        const shipmentInTransit:Shipments = await this.changeStatus(id,shipmentStatus.CANCELED);
 
-        const dtoCorreo: CorreoDto = { para:envio.idCliente, asunto:'Envío cancelado', mensaje:email }
-        await this.correoService.enviarCorreo(dtoCorreo);
+        const dtoEmail: EmailDto = { to:shipment.customerId, subject:'Shipment canceled', message:email }
+        await this.emailService.sendEmail(dtoEmail);
 
-        return envioEnTransito;
+        return shipmentInTransit;
 
     } catch (error) {
-        throw this.handleExceptions(error, `Error al intentar enviar correo para el envio: ${id}`);
+        throw this.handleExceptions(error, `Error trying to send email for the shipment: ${id}`);
     }
     }
 
-    async pedidoEnTransito(id:number):Promise<Envios>{ 
+    async orderInTransit(id:number):Promise<Shipments>{ 
         try {
-            const envio: Envios = await this.getEnviosById(id);
-            if (!envio) throw new NotFoundException(`El envio de id ${id} que intenta contactar por correo no existe`);
+            const shipment: Shipments = await this.getShipmentsById(id);
+            if (!shipment) throw new NotFoundException(`The shipment with id ${id} you are trying to contact by email does not exist`);
             
-        const email:string = `<div><p>Hola ${envio.idCliente} muchas gracias por confiar en nuestro servicios,
-        te comentamos que tu pedido ${envio.idPedido} se encuentra en ${envio.estado} y llegara a la 
-        ${envio.direccionEnvio} en ${envio.tiempoEstimado}. </p>
+        const email:string = `<div>
+  <p>Hello ${shipment.customerId}, thank you very much for trusting our services. We would like to inform you that your order ${shipment.orderId} is currently in ${shipment.status} and will arrive at ${shipment.shippingAddress} in ${shipment.estimatedTime}.</p>
+  
+  <p>The company responsible for the transportation is ${shipment.transportCompany}, and its tracking number is ${shipment.trackingNumber}.</p>
+  
+  <p>If you wish to cancel the order without a refund, you can do so by following this link:</p>
+  
+  <a href="${url_base}/${id}?status=CANCELED">Cancel order</a>
+  
+  <p>Thank you very much, have a great day!</p>
+</div>`;
 
-        <p>La compañía encargada del traslado es ${envio.companiaTransporte} y su número de seguimiento
-        ${envio.numeroSeguimiento}. </p>
-        
-        <p>Si desea cancelar el pedido sin el reembolso puede hacerlo siguiendo este enlace </p>
-        
-        <a href="${url_base}/${id}?estado=cancelado">Cancelar pedido</a>
-        
-        <p>muchas gracias, que tenga un lindo día</p></div>`;
+        const shipmentInTransit:Shipments = await this.changeStatus(id,shipmentStatus.IN_TRANSIT);
 
-        const envioEnTransito:Envios = await this.cambiarEstado(id, EstadoEnvio.EN_TRANSITO);
+        const dtoEmail: EmailDto = { to:shipment.customerId, subject:'status of your Shipment', message:email }
+        await this.emailService.sendEmail(dtoEmail);
 
-        const dtoCorreo: CorreoDto = { para:envio.idCliente, asunto:'Estado de tu Envío', mensaje:email }
-        await this.correoService.enviarCorreo(dtoCorreo);
-
-        return envioEnTransito;
+        return shipmentInTransit;
 
     } catch (error) {
-        throw this.handleExceptions(error, `Error al intentar enviar correo para el envio: ${id}`);
+        throw this.handleExceptions(error, `Error trying to send email for the shipment: ${id}`);
     }
     }
 

@@ -1,67 +1,65 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
-import { EnviosService } from './envios.service';
-import { Envios } from './entidad/envios.entity';
-import { EnviosDto } from './dto/envios.dto';
-import { EstadoEnvio } from './enum/estadoEnvio.enum';
-import { Not } from 'typeorm';
-import { NotFoundError } from 'rxjs';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { shipmentStatus } from './enum/estadoEnvio.enum';
+import { shipmentsService } from './envios.service';
+import { Shipments } from './entidad/envios.entity';
+import { ShipmentsDto } from './dto/envios.dto';
 
-const limiteGenerico:number = 100;
+const genericLimit:number = 100;
 
-@Controller('envios')
-export class EnviosController {
-    constructor(private readonly enviosService:EnviosService){}
+@Controller('shipments')
+export class ShipmentsController {
+    constructor(private readonly shipmentsService:shipmentsService){}
 
     @Get()
     @HttpCode(200)
-    async getEnvios(
-        @Query('pagina') pagina: number = 1,
-        @Query('limite') limite: number = limiteGenerico
-    ): Promise<{data:Envios[], total:number}> {
+    async getShipments(
+        @Query('page') page: number = 1,
+        @Query('limit') limit: number = genericLimit
+    ): Promise<{data:Shipments[], total:number}> {
 
-        return await this.enviosService.getEnviosPaginados(pagina, limite);
+        return await this.shipmentsService.getPaginatedShipments(page, limit);
     }
 
     @Get(':id')
     @HttpCode(200)
-    async getEnviosById(
+    async getShipmentsById(
         @Param('id', new ParseIntPipe({ 
             errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE 
         })) id: number,
-        @Query('estado') estado: EstadoEnvio,
-    ): Promise<Envios> {
-        if (!estado) return await this.enviosService.getEnviosById(id);
-        if (estado === EstadoEnvio.EN_TRANSITO) return await this.enviosService.pedidoEnTransito(id);
-        if (estado === EstadoEnvio.CANCELADO) return await this.enviosService.cancelarPedido(id);
-        if (estado === EstadoEnvio.ENTREGADO) return await this.enviosService.cambiarEstado(id, estado);
+        @Query('status')status:shipmentStatus,
+    ): Promise<Shipments> {
+        if (!status) return await this.shipmentsService.getShipmentsById(id);
+        if (status ===shipmentStatus.IN_TRANSIT) return await this.shipmentsService.orderInTransit(id);
+        if (status ===shipmentStatus.CANCELED) return await this.shipmentsService.cancelOrder(id);
+        if (status ===shipmentStatus.DELIVERED) return await this.shipmentsService.changeStatus(id,status);
 
-        throw new NotFoundException(`Necesita confirmar un estado valido en la petición`);
+        throw new NotFoundException(`Needs to confirm a valid status in the request`);
     }
 
     @Post()
-    async createEnvio(
-        @Body() datos: EnviosDto): Promise<Envios> {
+    async createShipment(
+        @Body() information: ShipmentsDto): Promise<Shipments> {
 
-        return await this.enviosService.createEnvio(datos);
+        return await this.shipmentsService.createShipment(information);
     }
 
     @Put(':id')
-    async updeateEnvio(
+    async updateShipment(
         @Param('id', new ParseIntPipe({ 
             errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE 
         })) id: number, 
-        @Body() datos: EnviosDto): Promise<Envios> {
+        @Body() information: ShipmentsDto): Promise<Shipments> {
 
-        return await this.enviosService.updeateEnvio(id, datos);
+        return await this.shipmentsService.updateShipment(id, information);
     }
 
     @Delete(':id')
-    async deleteEnvio(
+    async deleteShipment(
         @Param('id', new ParseIntPipe({ 
             errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE 
         })) id: number): Promise<Boolean> {
 
-        return await this.enviosService.deleteEnvio(id);
+        return await this.shipmentsService.deleteShipment(id);
     }
 
 }

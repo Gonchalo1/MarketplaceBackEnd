@@ -1,27 +1,27 @@
 import { IsEmail, IsEmpty, IsNotEmpty, IsString } from "class-validator";
 
-export class EnviosDto {
+export class ShipmentsDto {
     @IsEmail()
     @IsNotEmpty()
-    idCliente: string;
+    customerId: string;
 
     @IsString()
     @IsNotEmpty()
-    idPedido:string;
+    orderId:string;
 
     @IsString()
     @IsEmpty()
-    tiempoEstimado:string;
+    estimatedTime:string;
 
     @IsString()
     @IsEmpty()
-    direccionEnvio:string;
+    shippingAddress:string;
 
     @IsString()
     @IsEmpty()
-    companiaTransporte: string;
+    transportCompany: string;
   
     @IsString()
     @IsEmpty()
-    numeroSeguimiento: string;
+    trackingNumber: string;
 }

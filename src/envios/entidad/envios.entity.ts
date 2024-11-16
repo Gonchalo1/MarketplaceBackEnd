@@ -1,34 +1,34 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { EstadoEnvio } from "../enum/estadoEnvio.enum";
 import { IsNotEmpty } from "class-validator";
+import { shipmentStatus } from "../enum/estadoEnvio.enum";
 
-@Entity('envios')
-export class Envios {
+@Entity('Shipments')
+export class Shipments {
   @PrimaryGeneratedColumn()
-  idEnvio: number;
+  shipmentId: number;
 
   @Column()
   @IsNotEmpty()
-  idCliente: string;
+  customerId: string;
 
   @Column()
   @IsNotEmpty()
-  idPedido: string; 
+  orderId: string; 
 
-  @Column({ type: 'enum', enum: EstadoEnvio, default: EstadoEnvio.PENDIENTE })
-  estado: EstadoEnvio;
+  @Column({ type: 'enum', enum:shipmentStatus, default:shipmentStatus.PENDING })
+ status:shipmentStatus;
 
-  @Column({ default: 'dos a tres días habiles' })
-  tiempoEstimado: string;
-
-  @Column({ nullable: true })
-  direccionEnvio: string;
+  @Column({ default: 'two to three business days' })
+  estimatedTime: string;
 
   @Column({ nullable: true })
-  companiaTransporte: string;
+  shippingAddress: string;
 
   @Column({ nullable: true })
-  numeroSeguimiento: string;
+  transportCompany: string;
+
+  @Column({ nullable: true })
+  trackingNumber: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -36,13 +36,13 @@ export class Envios {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor(idCliente:string, idPedido:string, tiempoEstimado:string, dir: string, compTrans: string,  nSeguimiento:string){
-    this.idCliente = idCliente;
-    this.idPedido= idPedido;
-    this.estado = EstadoEnvio.PENDIENTE;
-    this.tiempoEstimado = tiempoEstimado;
-    this.direccionEnvio = dir;
-    this.companiaTransporte = compTrans;
-    this.numeroSeguimiento = nSeguimiento;
+  constructor(customerId:string, orderId:string, estimatedTime:string, shippingAddress: string, compTrans: string,  trackingNumber:string){
+    this.customerId = customerId;
+    this.orderId= orderId;
+    this.status =shipmentStatus.PENDING;
+    this.estimatedTime = estimatedTime;
+    this.shippingAddress = shippingAddress;
+    this.transportCompany = compTrans;
+    this.trackingNumber = trackingNumber;
   }
 }

@@ -16,6 +16,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
 
     header {
@@ -93,26 +94,26 @@
 
 <body>
   <header>
-    <h1>BIENVENIDOS A LA API DE ENVIOS DE MARKETPLACE</h1>
+    <h1>BIENVENIDOS A LA API DE Shipments DE MARKETPLACE</h1>
     <p>Esta api es un microservicio de la api marketplace encargada del manejo de los envíos</p>
   </header>
   <h2>Rutas de acceso y formato de la información</h2>
   <h3>GET()</h3>
   <section>
-    <p>La ruta para leer los envíos es <span>/envíos</span>, tiene un paginado de 100 envíos
+    <p>La ruta para leer los envíos es <span>/shipments</span>, tiene un paginado de 100 envíos
       por llamado, y estan ordenados de más recientes a más antiguos</p>
 
     <p>El metodo GET devuelve un arreglo de objetos con la siguiente estructura</p>
     <ul>
       <li> { data: [ {</li>
-      <li>idEnvio:number</li>
-      <li>idCliente: string,</li>
-      <li>idPedido: string,</li>
-      <li>estado: estadoEnum,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: boolean;</li>
+      <li>shipmentId:number</li>
+      <li>customerId: string,</li>
+      <li>orderId: string,</li>
+      <li>status:statusEnum,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: boolean;</li>
       <li>createdAt: Date</li>
       <li>updatedAt: Date</li>
       <li>} ] }</li>
@@ -126,50 +127,50 @@
     <p>El metodo GET(:/id) devuelve un objeto con la siguiente estructura</p>
     <ul>
       <li> {</li>
-      <li>idEnvio:number</li>
-      <li>idCliente: string,</li>
-      <li>idPedido: string,</li>
-      <li>estado: estadoEnum,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: boolean;</li>
+      <li>shipmentId:number</li>
+      <li>customerId: string,</li>
+      <li>orderId: string,</li>
+      <li>status:statusEnum,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: boolean;</li>
       <li>createdAt: Date</li>
       <li>updatedAt: Date</li>
       <li>}</li>
     </ul>
   </section>
-  <h3>GET(:/id?estado=estadoEnum)</h3>
+  <h3>GET(:/id?status=statusEnum)</h3>
   <section>
-    <p>La ruta para cambiar el estado de un envío es <span>/envíos/1?estado=pendiente</span>,
-      suponiendo que 1 sea la id del envío a cambiar y pendiente sea el estado al que se lo
+    <p>La ruta para cambiar elstatus de un envío es <span>/shipments/1?status=PENDING</span>,
+      suponiendo que 1 sea la id del envío a cambiar y PENDING sea el status al que se lo
       quiera cambiar.</p>
 
-    <p>Como parametro de la query hay que pasarle uno de los siguientes estados, estos estados
-      son los mismos que devuelven en el campo estado cada uno de los objetos envíos.
+    <p>Como parametro de la query hay que pasarle uno de los siguientes statuss, estos statuss
+      son los mismos que devuelven en el campo status cada uno de los objetos envíos.
     </p>
 
     <ul>
-      <li>pendiente</li>
-      <li>en transito</li>
-      <li>cancelado</li>
-      <li>entregado</li>
+      <li>PENDING</li>
+      <li>in transit</li>
+      <li>CANCELED</li>
+      <li>DELIVERED</li>
     </ul>
 
-    <p>El metodo GET(:/id?estado=estadoEnum) devuelve un objeto con la siguiente estructura,
-      con el estado actualizado.
+    <p>El metodo GET(:/id?status=statusEnum) devuelve un objeto con la siguiente estructura,
+      con el status actualizado.
     </p>
 
     <ul>
       <li> {</li>
-      <li>idEnvio:number</li>
-      <li>idCliente: string,</li>
-      <li>idPedido: string,</li>
-      <li>estado: estadoEnum,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: boolean;</li>
+      <li>shipmentId:number</li>
+      <li>customerId: string,</li>
+      <li>orderId: string,</li>
+      <li>status:statusEnum,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: boolean;</li>
       <li>createdAt: Date</li>
       <li>updatedAt: Date</li>
       <li>}</li>
@@ -177,31 +178,31 @@
   </section>
   <h3>POST()</h3>
   <section>
-    <p>La ruta generar un nuevo envío es <span>/envíos</span></p>
+    <p>La ruta para generar un nuevo envío es <span>/shipments</span></p>
 
     <p>En el body se le debe pasar la siguiente estructura:</p>
     <ul>
       <li> {</li>
-      <li>idCliente: email,</li>
-      <li>idPedido: string,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: string,</li>
+      <li>customerId: email,</li>
+      <li>orderId: string,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: string,</li>
       <li>}</li>
     </ul>
 
     <p>Y devuelve un objeto con la siguiente estructura:</p>
     <ul>
       <li> {</li>
-      <li>idEnvio:number</li>
-      <li>idCliente: string,</li>
-      <li>idPedido: string,</li>
-      <li>estado: estadoEnum,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: boolean;</li>
+      <li>shipmentId:number</li>
+      <li>customerId: string,</li>
+      <li>orderId: string,</li>
+      <li>status:statusEnum,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: boolean;</li>
       <li>createdAt: Date</li>
       <li>updatedAt: Date</li>
       <li>}</li>
@@ -209,63 +210,64 @@
   </section>
   <h3>PUT(:/id)</h3>
   <section>
-    <p>La ruta generar un nuevo envío es <span>/envíos/1</span>, suponiendo que sea 1
+    <p>La ruta generar un nuevo envío es <span>/shipments/1</span>, suponiendo que sea 1
       la ide del envío que se quiere editar</p>
 
     <p>En el body se le debe pasar la siguiente estructura:</p>
     <ul>
       <li> {</li>
-      <li>idCliente: email,</li>
-      <li>idPedido: string,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: string,</li>
+      <li>customerId: email,</li>
+      <li>orderId: string,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: string,</li>
       <li>}</li>
     </ul>
 
     <p>Y devuelve un objeto con la siguiente estructura:</p>
     <ul>
       <li> {</li>
-      <li>idEnvio:number</li>
-      <li>idCliente: string,</li>
-      <li>idPedido: string,</li>
-      <li>estado: estadoEnum,</li>
-      <li>tiempoEstimado: string,</li>
-      <li>direccionEnvio: string,</li>
-      <li>companiaTransporte: string,</li>
-      <li>numeroSeguimiento: boolean;</li>
+      <li>shipmentId:number</li>
+      <li>customerId: string,</li>
+      <li>orderId: string,</li>
+      <li>status:statusEnum,</li>
+      <li>estimatedTime: string,</li>
+      <li>shippingAddress: string,</li>
+      <li>transportCompany: string,</li>
+      <li>trackingNumber: boolean;</li>
       <li>createdAt: Date</li>
       <li>updatedAt: Date</li>
       <li>}</li>
     </ul>
   </section>
-  <h3>Datos extras a tener encuenta</h3>
+  <h3>information extras a tener en cuenta</h3>
   <section>
-    <p>*** El objeto estadoEnum debe ser un string que puede tener solo estas palabras:</p>
-    <p>'pendiente', 'en transito', 'cancelado', 'entregado'</p>
-    <p>Estas se pasan por Query para cambiar el estado del envío y son las que vemos cuando
+    <p>*** El objeto statusEnum debe ser un string que puede tener solo estas palabras:</p>
+    <p>'PENDING', 'in transited', 'CANCELED', 'DELIVERED'</p>
+    <p>Estas se pasan por Query para cambiar elstatus del envío y son las que vemos cuando
       llamamos un metodo get en cada objeto envío que leemos
     </p>
-    <p>*** Los cambio de estado de los pedidos desencadenan que se anuncie al cliente por
+    <p>*** Los cambio de status de los pedidos desencadenan que se anuncie al cliente por
       email la situación de su pedido.
     </p>
-    <p> -- 'cancelado' envía el siguiente email: </p>
-    <p>Hola 'exemple@exemple.com' muchas gracias por confiar en nuestros servicios, te comentamos
-      que tu pedido 'datos del pedido' ha sido cancelado.
-
-      Que tenga un lindo dia</p>
-    <p>
-    <p> -- 'en tramite' envía el siguiente email: </p>
-    Hola 'exemple@exemple.com' muchas gracias por confiar en nuestros servicios, te comentamos
-    que tu pedido 'datos del pedido' se encuentra en tramite y llegara a la 'direccion de envio'
-    en 'tiempo estimado de entrega'.</p>
-    <p>La compañía encargada del traslado es 'compania de traslado' y su número de seguimiento
-      'numero de seguimiento'.
-      Si desea cancelar el pedido sin el reembolso puede hacerlo siguiendo este enlace</p>
-    <a>Cancelar pedido</a>
-
-    <p>Muchas gracias, que tengas un lindo día.</p>
+    <p> -- 'CANCELED' envía el siguiente email: </p>
+    <p>Hello 'exemple@exemple.com', thank you very much for trusting our services. 
+      We would like to inform you that your order 'information del pedido' has been CANCELED.</p>
+      <p>Have a great day!</p>
+      
+      <p> -- 'en tramite' envía el siguiente email: </p>
+      <p>Hello 'exemple@exemple.com', thank you very much for trusting our services. 
+        We would like to inform you that your order 'information del pedido' is currently 
+        in ${shipment.status} and will arrive at 'Shipment address' in 'Estimated delivery time'.</p>
+  
+  <p>The company responsible for the transportation is 'Shipping company', and its tracking number is 'tracking number'.</p>
+  
+  <p>If you wish to cancel the order without a refund, you can do so by following this link:</p>
+  
+  <a href="${url_base}/${id}?status=CANCELED">Cancel order</a>
+  
+  <p>Thank you very much, have a great day!</p>
 
   </section>
 

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { CorreoService } from './correo/correo.service';
+import { EmailService } from './correo/correo.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EnviosModule } from './envios/envios.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Envios } from './envios/entidad/envios.entity';
+import { PagosModule } from './pagos/pagos.module';
+import { Shipments } from './envios/entidad/envios.entity';
+import { ShipmentsModule } from './envios/envios.module';
 
 
 @Module({
@@ -28,15 +28,16 @@ import { Envios } from './envios/entidad/envios.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [Envios],
+        entities: [Shipments],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'app') }),
-    EnviosModule,
+    ShipmentsModule,
+    PagosModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CorreoService],
+  providers: [EmailService],
 })
 export class AppModule { }

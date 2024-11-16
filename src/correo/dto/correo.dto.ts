@@ -1,15 +1,15 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class CorreoDto {
+export class EmailDto {
     @IsEmail()
     @IsNotEmpty()
-    para: string;
+    to: string;
 
     @IsString()
     @IsNotEmpty()
-    asunto: string;
+    subject : string;
 
     @IsString()
     @IsNotEmpty()
-    mensaje: string;
+    message: string;
 }

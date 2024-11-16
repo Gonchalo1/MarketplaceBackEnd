@@ -1,6 +1,6 @@
-export enum EstadoEnvio {
-    PENDIENTE = 'pendiente',
-    EN_TRANSITO = 'en transito',
-    ENTREGADO = 'entregado',
-    CANCELADO = 'cancelado',
-  }
+export enum shipmentStatus {
+  PENDING = 'pending',
+  IN_TRANSIT = 'in transit',
+  DELIVERED = 'delivered',
+  CANCELED = 'canceled',
+}

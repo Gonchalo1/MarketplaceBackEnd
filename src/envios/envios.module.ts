@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { EnviosController } from './envios.controller';
-import { EnviosService } from './envios.service';
-import { CorreoService } from 'src/correo/correo.service';
+import { EmailService } from 'src/correo/correo.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Envios } from './entidad/envios.entity';
+import { Shipments } from './entidad/envios.entity';
+import { ShipmentsController } from './envios.controller';
+import { shipmentsService } from './envios.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Envios])],
-  controllers: [EnviosController],
-  providers: [EnviosService, CorreoService]
+  imports: [TypeOrmModule.forFeature([Shipments])],
+  controllers: [ShipmentsController],
+  providers: [shipmentsService, EmailService]
 })
-export class EnviosModule {}
+export class ShipmentsModule {}
