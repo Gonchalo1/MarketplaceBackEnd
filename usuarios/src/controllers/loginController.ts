@@ -11,10 +11,10 @@ const loginController = async (req: Request, res: Response) => {
     }
 
     try {
-        // Use `checkUser` to validate the user
+        // checkuser valida el usuario
         await checkUser(email, password, username);
 
-        // Find the user in the database
+        // Encuentra usuario en la base de datos
         const user = await User.findOne({
             where: {
                 email: email,
@@ -26,16 +26,16 @@ const loginController = async (req: Request, res: Response) => {
             return res.status(404).send('Usuario no encontrado');
         }
 
-        // Check if the password is correct
+        // valida si la contraseña es correcta
         if (user.password === password) {
-            // If user is authenticated, generate a JWT token
+            // si pasa todos los checkeos crea el token
             const token = jwt.sign(
-                { id: user.id, email: user.email, username: user.username }, // payload
-                process.env.JWT_SECRET as string, // secret key
-                { expiresIn: process.env.JWT_EXPIRES_IN } // expiration
+                { id: user.id, email: user.email, username: user.username }, 
+                process.env.JWT_SECRET as string, // token secreto
+                { expiresIn: process.env.JWT_EXPIRES_IN } // expiracion
             );
 
-            // Send the token and access status in the response
+            // envia una respuesta con el token y el access status
             return res.json({ access: true, token });
         } else {
             return res.status(403).send("Contraseña incorrecta");

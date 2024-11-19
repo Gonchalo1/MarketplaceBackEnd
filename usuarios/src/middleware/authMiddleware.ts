@@ -14,7 +14,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction): void =
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
-    req.user = decoded; // TypeScript now recognizes `user` as a valid property on `Request`
+    req.user = decoded; 
     next();
   } catch (error) {
     res.status(403).json({ message: "Invalid token" });
