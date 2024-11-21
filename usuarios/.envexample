@@ -1,0 +1,6 @@
+DB_HOST=localhost
+DB_NAME="aca Va El Nombre De Tu DB, en mi caso le puse users"
+DB_USER="tu nombre de usuario de postgree"
+DB_PASS="tu pass de postgree"
+JWT_SECRET='ChangeThisKeyOnProductionThisNeedToBeVeryLongWordAndMustContain!SIMBOLSLIKE#$%&'
+JWT_EXPIRES_IN=1h

@@ -1,3 +1,9 @@
+IMPORTANTE CREAR DB "users", en el crear un schema "users", en el schema "users" crear en este orden las columnas
+"id" - "email" - "password" - "username" . Esto se debe a que el userService hace una query cifrada preguntando si 
+si id email pasword y username coinciden respectivamente con lo q contengan las columnas
+
+
+
 1Server llama a routers
 
 2 Routes define las rutas y utiliza la logica definida en controllers
