@@ -9,3 +9,9 @@ si id email pasword y username coinciden respectivamente con lo q contengan las 
 2 Routes define las rutas y utiliza la logica definida en controllers
 
 3 Db Connection crea la coneccion a la base de datos y utiliza el modulo "user" para que la DB sepa q esperar
+
+
+
+
+Where to Implement loginUser
+The loginUser function should be part of your client-side code. This could be in any file where you manage user authentication, such as in a UI component file or a dedicated service file if you are organizing your client code that way.

@@ -34,7 +34,7 @@ const loginController = async (req: Request, res: Response) => {
                 process.env.JWT_SECRET as string, // token secreto
                 { expiresIn: process.env.JWT_EXPIRES_IN } // expiracion
             );
-
+            console.log('Generated Token:', token);
             // envia una respuesta con el token y el access status
             return res.json({ access: true, token });
         } else {
