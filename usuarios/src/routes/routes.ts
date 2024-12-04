@@ -5,6 +5,7 @@ import mainPageController from "../controllers/mainPage";
 import loginController from "../controllers/loginController";
 import authMiddleware from "../middleware/authMiddleware";
 import deleteUsercontroller from "../controllers/deleteUser";
+import forgotPasswordController from "../controllers/forgotPassword";
 
 const router = Router();
 
@@ -28,6 +29,10 @@ router.post("/register", (req: Request, res: Response) => {
  router.delete("/deleteuser", (req: Request, res: Response) => {
    deleteUsercontroller(req, res);
  });
+
+ router.get("/forgot-password", (req: Request, res: Response) => {
+  forgotPasswordController(req, res);
+});
 export default router;
 
 /** A DESARROLLAR LOS SIGUIENTES ENDPOINTS
@@ -54,12 +59,6 @@ Permite a un usuario autenticado obtener su propia información.
 Permite a un usuario autenticado actualizar su información personal (nombre, correo electrónico, contraseña, etc.).
 
 
-
-
-
-*Eliminar cuenta de usuario: /api/users/me
-Permite a un usuario eliminar su cuenta.
- 
  
  
 *  /////  Endpoints de Gestión de Roles y Permisos  /////
