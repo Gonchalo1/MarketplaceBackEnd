@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-import { Sequelize } from 'sequelize';
+import { createConnection } from './database/Connection'; // Import the createConnection function
+import router from './routes/routes';
+import "./types/express";
+
 
 dotenv.config();
 
@@ -12,19 +14,28 @@ const port = process.env.PORT || 3000;
 // Configuración de middlewares
 app.use(cors());
 app.use(express.json());
+app.use('/', router);
 
-// Inicializar Sequelize
-const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, process.env.DB_PASS!, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres'
-});
+async function startServer() {
+  try {
+      const client = await createConnection();
 
-// Ejemplo de ruta
-app.get('/', (req, res) => {
-  res.send('¡Hola, mundo con TypeScript!');
-});
+     
+      const result = await client.query('SELECT NOW()');
+      console.log('Current time:', result.rows[0].now);
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+     
+
+      app.listen(port, () => {
+          console.log(`Servidor corriendo en http://localhost:${port}`);
+      });
+  } catch (error) {
+      console.error('Error connecting to database:', error);
+  }
+}
+
+startServer();
+
+
+
+
